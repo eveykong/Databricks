@@ -1,6 +1,6 @@
 -- Databricks notebook source
 -- MAGIC %md
-# Move data frim redshift to databricks
+# Move data from redshift to databricks
 
 -- COMMAND ----------
 -- MAGIC %sql
