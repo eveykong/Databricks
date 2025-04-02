@@ -1,3 +1,4 @@
+-- Databricks notebook source
 select --base.table_name,
 '      CREATE TABLE databricks_workspace_sandbox_03.default.'||substring(base.table_name,4)||' (
       '||base.column_name||' '||base.data_type_translate||',
