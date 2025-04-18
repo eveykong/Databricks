@@ -1,0 +1,13 @@
+# The main pipeline for first_evey_dabs_build
+resources:
+  pipelines:
+    first_evey_dabs_build_pipeline:
+      name: first_evey_dabs_build_pipeline
+      catalog: databricks_sandbox_03v2
+      schema: first_evey_dabs_build_${bundle.target}
+      libraries:
+        - notebook:
+            path: ../src/dlt_pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src

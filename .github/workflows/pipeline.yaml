@@ -1,30 +1,33 @@
 # This is a basic automation workflow to help you get started with GitHub Actions.
 
-name: deploy_databricks_pipeline
+name: deploy_databricks_pipeline_to_Dev
 
+concurrency: "1"
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push for main and dev branch
+  workflow_dispatch:
+    
   push:
-    paths-ignore:
-      - .github
     branches:
       # Set your base branch name here
       - master
+    paths:
+      - "**/*.yml"
+      - "**/*.py"
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "deploy"
   deploy:
     # The type of runner that the job will run on
+    name: "Deploy bundle"
     runs-on: ubuntu-latest
-    environment: development
-    env:
-      DATABRICKS_HOST: ${{ secrets.DEPLOYMENT_TARGET_URL }}
-      DATABRICKS_TOKEN: ${{ secrets.DEPLOYMENT_TARGET_TOKEN }} 
-      REPO_PATH: /Workspace/Shared/Databricks
-      # DBFS_LIB_PATH: dbfs:/path/to/libraries/
-      # LATEST_WHEEL_NAME: latest_wheel_name.whl
+    defaults:
+      run:
+        working-directory: ./first_evey_dabs_build
+  
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,6 +39,12 @@ jobs:
       with:
       # Version range or exact version of a Python version to use, using SemVer's version range syntax.
         python-version: '3.10'
+
+    - uses: databricks/setup-cli@main
+    - run: databricks bundle deploy
+      env:
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        DATABRICKS_BUNDLE_ENV: dev
 
     # Download the Databricks CLI. See https://github.com/databricks/setup-cli
     - uses: databricks/setup-cli@main
