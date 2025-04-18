@@ -5,16 +5,13 @@ name: deploy_databricks_pipeline_to_Dev
 concurrency: "1"
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push for main and dev branch
-  workflow_dispatch:
-    
+  # Triggers the workflow on push for main and dev branch 
   push:
+    paths-ignore:
+      - .github
     branches:
       # Set your base branch name here
       - master
-    paths:
-      - "**/*.yml"
-      - "**/*.py"
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
